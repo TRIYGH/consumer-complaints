@@ -3,11 +3,12 @@
 import numpy as np
 import pandas as pd
 from pandas import DataFrame, Series
+from datetime import datetime
 
 
 def load_file():
     column_names = ['Complaint ID','Product','Sub-product','Issue','Sub-issue','State','ZIP code','Submitted via','Date received','Date sent to company','Company','Company response','Timely response?','Consumer disputed?']
-    return pd.read_csv('complaints_dec_2014.csv', names=column_names)
+    return pd.read_csv('complaints_dec_2014.csv')
 
 
 
@@ -54,13 +55,48 @@ input()
 #------------------------------------------------------
 
 complaint_dates = entire_cons_compl.pop('Date received')
-for each in complaint_dates:
-    print(len(each))
-    input()
-print(complaint_dates)
+
+entire_cons_compl.index = pd.to_datetime(complaint_dates)#, format='%m/%d/%Y')
+
+entire_cons_compl['Weekday'] = entire_cons_compl.index.weekday
+
+entire_cons_compl.head()
+# DOC_list = complaint_dates.weekday
+INDEX = complaint_dates.value_counts().index
+print(INDEX)
+input()
+VAL = complaint_dates.value_counts()
+# now2 = datetime.datetime.now("12-31-1988")
+day = datetime.strptime('12-31-1988', '%m-%d-%Y')
+# day = (complaint_dates.value_counts().index)[0].now
+print(day.weekday())
 input()
 
-# day_of_complaint = pd.to_datetime(complaint_dates, format='%m/%d/%Y', infer_datetime_format=True)
-#
-# DOC_list = complaint_dates.weekday
-# print(day_of_complaint, DOC_list)
+iday = complaint_dates.value_counts().index[0]
+day = datetime.strptime(iday, '%m/%d/%Y')
+print(day)
+print(day.strftime("%A"))
+input()
+
+
+for each in INDEX:
+    print(each)
+input()
+
+x=complaint_dates.value_counts()
+y=entire_cons_compl['Weekday'].value_counts()
+a=(entire_cons_compl['Weekday'].value_counts())[0]
+b=(entire_cons_compl['Weekday'].value_counts())[1]
+print(y.index, y)
+input()
+print(y,"YYYYY",a,b)
+count = 0
+days=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'SUnday']
+for each in y:
+    print(days[count],each)
+    count+=1
+input()
+print(y)
+# for each in x:
+#     print(each, entire_cons_compl['Weekday'])
+print(y[1])
